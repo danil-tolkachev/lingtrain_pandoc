@@ -22,6 +22,10 @@ def action(elem, doc):
     elif isinstance(elem, pf.Note):
         return []
 
+    # remove horizontal rule
+    elif isinstance(elem, pf.HorizontalRule):
+        return []
+
     # parse epigraphs and cites
     elif ((isinstance(elem, pf.Div) and 'epigraph' in elem.classes)
           or isinstance(elem, pf.BlockQuote)):
