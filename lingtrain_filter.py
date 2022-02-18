@@ -8,7 +8,10 @@ def prepare(doc):
     title = doc.get_metadata('title')
     if title:
         insertion.append(pf.Para(pf.Str(f'{title}%%%%%title.')))
-    for author in doc.get_metadata('author'):
+    authors = doc.get_metadata('author')
+    if isinstance(authors, str):
+        authors = [authors]
+    for author in authors:
         insertion.append(pf.Para(pf.Str(f'{author}%%%%%author.')))
     doc.content[0:0] = insertion
 
@@ -26,11 +29,17 @@ def action(elem, doc):
     elif isinstance(elem, pf.HorizontalRule):
         return []
 
+    # remove image
+    elif isinstance(elem, pf.Image):
+        return []
+
     # parse epigraphs and cites
     elif ((isinstance(elem, pf.Div) and 'epigraph' in elem.classes)
           or isinstance(elem, pf.BlockQuote)):
         pars = [e for e in elem.content if isinstance(e, pf.Para)]
-        if len(pars) == 1:
+        if len(pars) == 0:
+            return []
+        elif len(pars) == 1:
             pars[0].content.append(pf.Str('%%%%%qtext.'))
         else:
             for par in pars[:-1]:
