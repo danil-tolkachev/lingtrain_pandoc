@@ -7,9 +7,17 @@ sudo apt install pandoc
 pip install --user panflute
 ```
 
-For converting fb2 use the command:
+For converting book use the command:
 ```bash
-pandoc my-book.fb2 -F lingtrain_filter.py -t plain -o my-book.txt
+pandoc --filter lingtrain_filter.py --to plain --output my-book.txt my-book.fb2 # or my-book.epub
+```
+
+You can override some meta information by using this command:
+```bash
+pandoc --filter lingtrain_filter.py --to plain --output my-book.txt my-book.fb2 \
+    --metadata=author:"Author Name" \
+    --metadata=title:"Book Title" \
+    --metadata=translator:"Translator Name"
 ```
 
 Tested with Ubuntu 20.04, pandoc 2.13 and panflute 2.1.3
