@@ -13,6 +13,9 @@ def prepare(doc):
         authors = [authors]
     for author in authors:
         insertion.append(pf.Para(pf.Str(f'{author}%%%%%author.')))
+    translator = doc.get_metadata('translator')
+    if translator:
+        insertion.append(pf.Para(pf.Str(f'{translator}%%%%%translator.')))
     doc.content[0:0] = insertion
 
 
